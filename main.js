@@ -106,6 +106,11 @@ Vue.component('product', {
         <label for="name">Name:</label>
         <input id="name" v-model="name">
       </p>
+      
+      <p>
+        <label for="contact">Contact:</label>
+        <input id="contact" v-model="contact">
+      </p>
 
       <p>
         <label for="review">Review:</label>      
@@ -132,6 +137,7 @@ Vue.component('product', {
     data() {
       return {
         name: null,
+        contact:null,
         review: null,
         rating: null,
         errors: []
@@ -140,19 +146,22 @@ Vue.component('product', {
     methods: {
       onSubmit() {
         this.errors = []
-        if (this.name && this.review && this.rating) {
+        if (this.name && this.review && this.rating && this.contact) {
           let productReview = {
             name: this.name,
+            contact: this.contact,
             review: this.review,
             rating: this.rating
           }
           eventBus.$emit('review-submitted', productReview)
           this.name = null
+          this.contact = null
           this.review = null
           this.rating = null
         }
         else {
           if(!this.name) this.errors.push("Name required.")
+          if(!this.contact) this.errors.push(" required.")
           if(!this.review) this.errors.push("Review required.")
           if(!this.rating) this.errors.push("Rating required.")
         }
@@ -184,6 +193,7 @@ Vue.component('product', {
             <ul v-else>
                 <li v-for="(review, index) in reviews" :key="index">
                   <p>{{ review.name }}</p>
+                  <p>{{ review.contact }}</p>
                   <p>Rating:{{ review.rating }}</p>
                   <p>{{ review.review }}</p>
                 </li>
